@@ -171,7 +171,7 @@ class JSONReadableMap extends JSONObject {
   @Override
   public int optInt(String name, int fallback) {
     if (map.hasKey(name) && map.getType(name) == ReadableType.Number) {
-      return map.getInt(name);
+      return (int) Math.round(map.getDouble(name));
     }
     return fallback;
   }
@@ -184,11 +184,7 @@ class JSONReadableMap extends JSONObject {
   @Override
   public long optLong(String name, long fallback) {
     if (map.hasKey(name) && map.getType(name) == ReadableType.Number) {
-      try {
-        return map.getInt(name);
-      } catch (Exception e) {
-        return fallback;
-      }
+      return Math.round(map.getDouble(name));
     }
     return fallback;
   }
@@ -236,7 +232,7 @@ class JSONReadableMap extends JSONObject {
 
   @Override public int getInt(String name) throws JSONException {
     try {
-      return map.getInt(name);
+      return (int) Math.round(map.getDouble(name));
     } catch (RuntimeException e) {
       throw new JSONException(e.getMessage());
     }
@@ -244,11 +240,7 @@ class JSONReadableMap extends JSONObject {
 
   @Override public long getLong(String name) throws JSONException {
     try {
-      try {
-        return (long)map.getInt(name);
-      } catch (RuntimeException e) {
-        return (long)map.getDouble(name);
-      }
+      return Math.round(map.getDouble(name));
     } catch (RuntimeException e) {
       throw new JSONException(e.getMessage());
     }
